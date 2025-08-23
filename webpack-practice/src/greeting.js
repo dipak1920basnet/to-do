@@ -87,7 +87,7 @@ export class Task
 {
     constructor(id, name, start_date, due_date, priority)
     {
-        this.id = id;
+        this._id = id;
         this._name = name;
         this._start_date = new Set_date("start",start_date);
         this._due_date = new Set_date("end",due_date);
@@ -95,6 +95,10 @@ export class Task
         this.task_completed = new Completed(false);
     }
 
+    get id()
+    {
+        return this._id;
+    }
     // Proper getter for name
     get name() {
         return this._name;
