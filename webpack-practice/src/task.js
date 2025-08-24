@@ -1,77 +1,102 @@
-// this task.js will be depended on greeting.js
-import { Task, generateUUID } from "./greeting";
-const to_do_list = [];
-
-
-// Import both Task class and generateUUID function
-// import { Task, generateUUID } from './task.js';
-
-// Example usage:
-// const task1 = new Task(generateUUID(), "Buy milk", new Date(), new Date(), "high");
-// console.log(task1.name);
-
-// add task to to_do_list
-
-function get_task(id)
+import {Set_date, Completed} from "./common_class.js"
+export class Task
 {
-    for(let i = 0; i< to_do_list.length; i++)
+    constructor(id, name, start_date, due_date, priority)
     {
-        let assigned_task = to_do_list[i];
-        if (assigned_task.id == id)
-        {
-            return assigned_task;
+        this._id = id;
+        this._name = name;
+        this._start_date = new Set_date("start",start_date);
+        this._due_date = new Set_date("end",due_date);
+        this._priority = priority;
+        this.task_completed = new Completed(false);
+    }
+
+    get id()
+    {
+        return this._id;
+    }
+    // Proper getter for name
+    get name() {
+        return this._name;
+    }
+
+    // Setter with validation
+    set name(value) {
+        if (typeof value === "string" && value.trim().length > 0) {
+            this._name = value.trim();
+        } else {
+            this._name = "Untitled Task";
         }
     }
-    return null;
-}
-export function add_task(name,start_date,due_date,priority)
-{
-    const task1 = new Task(generateUUID(), name,start_date, due_date, priority)
-    to_do_list.push(task1);
-}
 
-export function change_name(id, name)
-{
-    const task = get_task(id);
-    if (task) task.name = name;
-}
-
-export function change_date(id, category, new_date){
-    const task = get_task(id);
-    category = category.toLowerCase()
-    if (!task) return;
-
-    if (category == "start")
+    get priority()
     {
-        task._start_date.change_time(new_date);
+        return this._priority;
     }
-    else if (category == "end")
+
+    set priority(value)
     {
-        task._due_date.change_time(new_date);
+        value = value.toLowerCase();
+        if (value == "high" || value == "medium" || value == "low")
+        {
+            this._priority = value;
+        }
+        else
+        {
+            this._priority = "medium";
+        }
+           
     }
-    else{
-        console.warn(`Invalid category: ${category}. Use "start" or "end".`);
+
+    get due_date()
+    {
+        return this._due_date;
+    }
+
+    set due_date(time)
+    {
+        const start_times = this._start_date.time
+        if (time <= start_times)
+        {
+            this._due_date.time = start_times;
+        }
+        else
+        {
+            this._due_date.time = time;
+        }
+    }
+
+    toggleCompleted()
+    {
+        this.task_completed.toggle();
+    }
+
+    isOverdue() {
+        return !this.task_completed.completed && this._due_date.time < new Date();
+    }
+
+
+    toJSON() {
+        return {
+            id: this.id,
+            name: this.name,
+            start_date: this._start_date.time,
+            due_date: this._due_date.time,
+            priority: this._priority,
+            completed: this.task_completed.completed
+        };
+    }
+
+    static fromJSON(obj) {
+        const task = new Task
+        (
+            obj.id,
+            obj.name,
+            new Date(obj.start_date),
+            new Date(obj.due_date),
+            obj.priority
+        );
+        task.task_completed = new Completed(obj.completed);
+        return task;
     }
 }
-
-export function change_priority(id, new_priority)
-{
-    const task = get_task(id)
-    if (task) task.priority = new_priority;
-}
-
-export function toggle_status(id)
-{
-    const task = get_task(id)
-    if (task) task.toggleCompleted()
-}
-
-export { to_do_list };
-
-// Future features: 
-/* 
-Re-order task by priority
-re-order task by due-date
-re-order incomplete task that is already due
-shows number of days to complete task
-*/

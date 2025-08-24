@@ -1,4 +1,151 @@
-/* styles.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-  background-color: rebeccapurple;
+  background: linear-gradient(to right, #f0f2f5, #c2c2c2);
+  min-height: 100vh;
+}
+
+header {
+  width: 100%;
+  padding: 30px 0;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+header h1 {
+  font-size: 2.2rem;
+}
+
+/* Add task section */
+.add-task {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  max-width: 700px;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.add-task input,
+.add-task select,
+.add-task button {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.add-task input:focus,
+.add-task select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.add-task button {
+  grid-column: span 2;
+  background-color: #3498db;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-task button:hover {
+  background-color: #2980b9;
+}
+
+.date-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Task board layout */
+.task-board {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto 40px auto;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 12px;
+  min-height: 300px;
+}
+
+.column h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Task card */
+.task {
+  background-color: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  transition: transform 0.2s;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+}
+
+.task h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.task .dates {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+.task .priority {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  color: #fff;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.priority.high { background-color: #e74c3c; }
+.priority.medium { background-color: #f1c40f; color: #333; }
+.priority.low { background-color: #2ecc71; }
+
+.task .actions {
+  margin-top: 10px;
+}
+
+.task .actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-right: 10px;
+}
+
+.task .actions button:hover {
+  background-color: #2980b9;
 }
